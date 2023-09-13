@@ -15,7 +15,6 @@
             'route' => 'list.categories',
             'routeAdd' => 'categories.create'
         ])
-
         <!-- /.content-header -->
 
         <!-- Main content -->

@@ -24,10 +24,7 @@
                                 <label for="parent_id">Chọn danh mục cha</label>
                                 <select class="form-control" id="parent_id">
                                     <option value="0">Chọn danh mục cha</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    {!! $htmlOption !!}
                                 </select>
                             </div>
                             <div class="form-group">
