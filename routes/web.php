@@ -19,14 +19,5 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::prefix('categories')->group(function (){
     Route::get('/', [CategoryController::class, 'index'])->name('list.categories');
     Route::get('/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/store', [CategoryController::class, 'store'])->name('categories.store');
 });
-
-
-//Route::get('/', [
-//    'as'     => 'categories.index',
-//    'uses'   => 'App\Http\Controllers\CategoryController@index'
-//]);
-//Route::get('/create', [
-//    'as'     => 'categories.create',
-//    'uses'   => 'App\Http\Controllers\CategoryController@create'
-//]);

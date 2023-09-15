@@ -2,60 +2,40 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Http\Requests\CategoryStoreRequest;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Components\Recusive;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    private $htmlSlelect;
-    public function __construct()
+    private $category;
+
+    public function __construct(Category $category)
     {
-        $this->htmlSlelect = '';
-    }
-
-    public function create()
-    {
-        $data = Category::all();
-
-//        foreach ($data as $value){
-//            if ($value['parent_id'] == 0){
-//                echo "<option>" . $value['name'] . "</option>";
-//
-//                foreach ($data as $value2){
-//                    if ($value2['parent_id'] == $value['id']){
-//                        echo "<option>" . '- ' . $value2['name'] . "</option>";
-//
-//                        foreach ($data as $value3){
-//                            if ($value3['parent_id'] == $value2['id']){
-//                                echo "<option>" . '-- ' . $value3['name'] . "</option>";
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
-        $htmlOption = $this->categoryRecusive(0);
-
-        return view('backend.category.add', compact('htmlOption'));
-    }
-
-    function categoryRecusive($id, $text = ''){
-        $data = Category::all();
-
-        foreach ($data as $value){
-            if ($value['parent_id'] == $id){
-                $this->htmlSlelect .= "<option>" . $text . $value['name'] . "</option>";
-                $this->categoryRecusive($value['id'], $text . '- ');
-            }
-        }
-
-        return $this->htmlSlelect;
+        $this->category = $category;
     }
 
     public function index()
     {
         return view('backend.category.index');
+    }
+
+    public function create()
+    {
+        $data       = $this->category->all();
+        $recusive   = new Recusive($data);
+        $htmlOption = $recusive->categoryRecusive();
+
+        return view('backend.category.add', compact('htmlOption'));
+    }
+
+    public function store(CategoryStoreRequest $request)
+    {
+        $this->category->insert($request->validated());
+
+        return redirect()->back()->with('Thành công', 'Danh mục được tạo thành công.');
     }
 }

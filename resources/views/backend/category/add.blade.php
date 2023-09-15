@@ -1,5 +1,5 @@
 @extends('backend.app')
-@section('title', 'Tạo Sản phẩm')
+@section('title', 'Tạo Danh Mục')
 
 @section('content')
     <div class="content-wrapper">
@@ -15,21 +15,22 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-3">
-                        <form>
+                        <form action="{{ route('categories.store') }}" method="post">
+                            @csrf
                             <div class="form-group">
                                 <label for="category_name">Tên danh mục</label>
-                                <input type="text" class="form-control" id="category_name">
+                                <input type="text" name="name" class="form-control" id="category_name">
                             </div>
                             <div class="form-group">
                                 <label for="parent_id">Chọn danh mục cha</label>
-                                <select class="form-control" id="parent_id">
+                                <select name="parent_id" class="form-control" id="parent_id">
                                     <option value="0">Chọn danh mục cha</option>
                                     {!! $htmlOption !!}
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="category_slug">Slug</label>
-                                <input type="text" class="form-control" id="category_slug">
+                                <input type="text" name="slug" class="form-control" id="category_slug">
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
