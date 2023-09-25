@@ -11,21 +11,16 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    private $category;
-
-    public function __construct(Category $category)
-    {
-        $this->category = $category;
-    }
-
     public function index()
     {
-        return view('backend.category.index');
+        $categories = Category::all();
+
+        return view('backend.category.index', compact('categories'));
     }
 
     public function create()
     {
-        $data       = $this->category->all();
+        $data       = Category::all();
         $recusive   = new Recusive($data);
         $htmlOption = $recusive->categoryRecusive();
 
@@ -34,8 +29,15 @@ class CategoryController extends Controller
 
     public function store(CategoryStoreRequest $request)
     {
-        $this->category->insert($request->validated());
+        Category::insert($request->validated());
 
-        return redirect()->back()->with('Thành công', 'Danh mục được tạo thành công.');
+        return redirect()->back()->with('success', 'Tạo danh mục thành công');
+    }
+
+    public function edit($id)
+    {
+        $category   = Category::findOrFail($id);
+
+        return view('backend.category.add', compact('category', 'category'));
     }
 }
